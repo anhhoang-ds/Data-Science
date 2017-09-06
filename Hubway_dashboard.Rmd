@@ -1,0 +1,146 @@
+---
+title: "Hubway Visualization Challenge"
+author: "Nam Pham"
+date: "December 18, 2016"
+output:
+  html_document: default
+  pdf_document: default
+vertical_layout: scroll
+---
+
+```{r library, message=FALSE,warning=FALSE}
+library(knitr)
+library(dplyr)
+library(readr)
+library(ggplot2)
+library(maptools)
+#library(RNeo4j)
+library(stringr)
+library(ggmap)
+library(kableExtra)
+```
+
+
+```{r import, message=FALSE,warning=FALSE}
+csv.folder = "C:/Users/namhpham/Documents/Personal files/R workspace"
+file.stations = paste(csv.folder, "hubway_stations.csv", sep="/")
+file.trips    = paste(csv.folder, "hubway_trips.csv"   , sep="/")
+df.stations = read_csv(file=file.stations)
+df.trips    = read_csv(file=file.trips)
+```
+
+
+```{r modify trip dataset, message= FALSE, warning=FALSE}
+df.trips %>%
+  filter(!is.na(strt_statn), 
+         !is.na( end_statn),
+         duration > 300) %>%           #include trip > 1 minute
+  mutate(age=2013-birth_date) %>%     #add age variable at the time of dataset
+  mutate(raw.date=as.Date(gsub( " .*$", "", start_date), "%m/%d/%Y")) %>% 
+  #extract the date before the white space and convert to Date type
+  mutate(duration=duration/60)%>% #convert duration to minutes
+  mutate(zip_code=str_pad((gsub("'", '',zip_code)), 5, pad="0")) %>% 
+  #remove ' in the beginning and add a leading 0 if zipcode has less than 4 letter
+  select(seq_id, hubway_id, strt_statn, end_statn, 
+         start_date, end_date, subsc_type,
+         duration, zip_code, birth_date, gender, age, raw.date, bike_nr)%>%
+         {.}->df.trips
+```
+
+```{r Modify station file}
+df.trips%>%
+  group_by(end_statn)%>%
+  summarize(incoming_trip=length(end_statn))-> count_trips
+  #count number of times that end_station appears, grouped by itself
+
+df.stations%>%
+  mutate(incoming_trip=count_trips$incoming_trip)%>%
+  #add new column of incoming trips to existing station, because station_id in both tables are arranged from 3->145, making it possible to merge
+  {.}->df.stations.graph
+```
+
+
+### Greater Boston area is adopting Hubway biking system. Since 2011, number of trips has increased over time, with heavy concentration in summer months
+```{r Trips}
+df.trips %>%
+  mutate(month_year=format(raw.date,"%Y-%m")) %>%
+  ggplot(aes(x=month_year,y=(unique(seq_id))))+
+  #scale_x_date(format="%Y-%m")+
+  stat_summary(fun.y=length,geom="bar",fill="dodgerblue1",color="blue")  +
+  #count the length of unique trip id, which is total trips
+  theme(axis.text.x=element_text(angle=45,hjust=1))+
+  #rotate the x-axis by 90 degree for easier viewing
+  ggtitle("Total Monthly Trips from 2011 to 2013") + 
+  scale_y_continuous(labels = scales::comma) +
+  theme(panel.background = element_rect(fill='white', colour='black'))+
+  ylab("Number of Trips")
+```       
+
+
+
+### Hubway usage time is greater on weekend, while weekday trips are shorter
+```{r Days of week, result='asis',warning=FALSE, message=FALSE, tidy=TRUE, echo=FALSE, results='markup'}
+options (digits = 4)
+df.trips %>%
+  mutate(Days_of_Week=weekdays(raw.date)) %>% #extract weekday from raw date
+  group_by(Days_of_Week)%>%
+  summarize(Average_Minutes=mean(duration,na.rm=TRUE),
+            'Average Trips'=n()/unclass(difftime(tail(df.trips$raw.date,n=1),df.trips$raw.date[1],units="weeks"))) %>%
+  arrange(desc(Average_Minutes)) %>%
+  knitr::kable(.)%>%
+  kable_styling(bootstrap_options = c("striped", "hover"))
+```
+
+
+
+
+### Typical users of Hubway biking system are males in their 30s
+    
+```{r}
+df.trips %>%
+  filter(!is.na(gender),!is.na(age))%>%
+  ggplot(aes(age)) + 
+  geom_histogram(binwidth=1, fill="orange")+
+  #geom_density(col="blue")+
+  ylab("Number of Users")+
+  xlab("Age")+
+  geom_bar(aes(fill=gender)) +
+  theme(panel.background = element_rect(fill='white', colour='black'))+
+  scale_y_continuous(labels = scales::comma) +
+  ggtitle("Age Distribution")
+```
+
+   
+
+
+
+### Most weekday bikers are registered users, who presumably use Hubway frequently to commute to work. Weekend trips are more utilized by one-time, casual users
+```{r}
+df.trips %>%
+  #mutate(duration_type=ifelse(df.trips$duration >=30, "Long Trip", "< 30 min"))%>%
+  mutate(Weekday=weekdays(raw.date)) %>% #extract weekday from raw date
+  #if duration is longer than 20 minutes, then "Long trip", otherwise it is short
+  ggplot  (aes(x   =Weekday))+
+  scale_x_discrete(limits=c("Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"))+
+  geom_bar(aes(fill=subsc_type)) +
+  ylab("Number of Trips")+
+  scale_y_continuous(labels = scales::comma) +
+  xlab("Days of Week") +
+  theme(panel.background = element_rect(fill='white', colour='black'))+
+  ggtitle("Trips Distribution")
+```
+
+
+
+### Boston and Cambridge are the hotspots for Hubway. These two cities account for the highest incoming trips, from both out-of-city and within-city  {data-height=1500}
+```{r GG Map, fig.align='top', tidy=TRUE, warning = FALSE}
+qmap(location = "Back Bay, MA", zoom=13, maptype= "terrain" ) + 
+  geom_point(data=df.stations.graph,aes(x=lng,y=lat,col=municipal, size=incoming_trip))+
+  ggtitle("Top Destinations for Hubway users")
+```
+Biking is especially popular along Commonwealth Ave, where protected bike lanes are installed
+
+### Improving the System
+- Add more bikes to Somerville and Brookline areas
+- Install more bike racks in Financial District/South Station (Boston) and Harvard/MIT (Cambridge),  the stations with top incoming traffics
+- Expand the Hubway system along bike trails and tourist attractions, such as Northern Strand Community Trail (Bike to the Sea Trail)
