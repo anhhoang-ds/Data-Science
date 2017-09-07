@@ -89,12 +89,10 @@ ui <-
       sidebarMenu(
         menuItem("Home",        tabName="home_tab",   icon=icon(name="home",       lib="glyphicon")),
         menuItem("Summary Statistics", tabName="first_tab",  icon=icon(name="menu-right", lib="glyphicon")),
-        #menuItem("Histogram", tabName="second_tab", icon=icon(name="menu-right", lib="glyphicon")),
         menuItem("Line Graph", tabName="third_tab", icon=icon(name="menu-right", lib="glyphicon")),
         menuItem("Scatter Plot", tabName="fourth_tab", icon=icon(name="menu-right", lib="glyphicon")),
         menuItem("World Map", tabName="fifth_tab", icon=icon(name="menu-right", lib="glyphicon")),
         menuItem("Conclusion", tabName="sixth_tab", icon=icon(name="menu-right", lib="glyphicon"))
-        #menuItem("Heat Map", tabName="sixth_tab", icon=icon(name="menu-right", lib="glyphicon"))
       )
     ),
     ## Body content
@@ -156,35 +154,6 @@ ui <-
                 )
         ),
         
-        # tab content for "second_tab" 
-        tabItem(tabName="second_tab",
-                fluidRow(
-                  box(width=12, background="blue", title="Histogram",
-                      "Histogram shows us the frequency of a variable"),
-                  box(width=12, selectInput("first_iso3c_2", "Choose one or more countries: ", 
-                                            multiple=TRUE, 
-                                            selected="FRA",
-                                            choices=country.codes)), 
-                  box(width=12, selectInput("indicator_2", "Select an indicator:", multiple=TRUE,
-                                            selected="NY.GDP.MKTP.CD",
-                                            choices=indicator.codes)),
-                  
-                  # To do: create another box to select a indicator code from 
-                  # the `indicator.codes` vector. You will use this selected value 
-                  # below to create `output$ic_histogram`
-                  
-                  box(width=12,sliderInput("bins",
-                                  "Number of bins:",
-                                  min = 1,
-                                  max = 50,
-                                  value = 30)
-                    ),
-                    
-                  
-                  box(width=12, plotlyOutput("ic_histogram"))
-                  #box(width=12, plotlyOutput("scatter_plot"))
-                )
-        ),
         # tab content for "third_tab'
         tabItem(tabName="third_tab",
                 fluidRow(
@@ -289,10 +258,6 @@ server <- function(input, output) {
   })
   
   output$world_map <- renderPlotly({
-    # To do: modify this code to use an indicator code
-    # selected using a selectInput element, in place of
-    # the value "SP.DYN.CBRT.IN"
-    # You might also try a different summarize function
     l <- list(color = toRGB("grey"), width = 0.5)
     g <- list(
       showframe = FALSE,
@@ -370,7 +335,6 @@ server <- function(input, output) {
   })
   
   output$heat_map <- renderPlotly({
-    #wb.df=filter(wb.df,country==input$)
     z2=cbind(na.omit(wb.df$SP.POP.65UP.TO.ZS),na.omit(wb.df$SP.DYN.CBRT.IN),
              na.omit(wb.df$NY.GDP.MKTP.KD.ZG),na.omit(wb.df$SP.POP.DPND.OL),na.omit(wb.df$SH.XPD.PUBL.GX.ZS),
              na.omit(wb.df$SL.TLF.CACT.NE.ZS),na.omit(wb.df$NY.GDS.TOTL.ZS))
