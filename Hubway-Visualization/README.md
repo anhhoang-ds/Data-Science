@@ -1,10 +1,10 @@
 # Hubway Data Visualization
-#Introduction
+## Introduction
 Hubway is a bike-sharing system, based in the Greater Boston Metropolitian areas. Launching in 2011, Hubway has now owned over 1,600 bikes at 160+ stations across Boston, Brookline, Cambridge and Somerville. As fast as Hubway bike network has been growing, its users also showed different types of behaviors. The goal of this project is to investigate into further insights about Hubway users and their corresponding behaviors, based on the Hubway data recorded about trips taken from July 2011 to November 2013. We aim to develop a good understanding of behaviors of different demographics of Hubway users.
 As such, the ultimate goal of the project is to investigate Hubway stations and trips. We will analyze the geographical locations of all Hubway stations, as well as the traffic in-between these stations. We aim to develop a good understanding of how people use this service and recommend any solution to improve the service and quality of the overall system.
 
 
-#Data Description
+## Data Description
 The dataset used in this report is obtained from Hubway Data Visualization Challenge. We obtained two CSV files. 
 The first file `df.stations` lists the details regarding 142 Hubway bike stations, which include properties such as id (integer), terminal code (character), station name (character), municipal (character), latitude (num), longitude (num), status (existing/removed-character). 
 
