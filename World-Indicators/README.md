@@ -1,7 +1,7 @@
 # World Bank Indicators Interactive Dashboard
-Please view the completed dashboard on  [Shiny Apps IO](https://nampham91.shinyapps.io/wbdevelopment/ "View Nam Pham's Shiny App")
+Please view the published dashboard on  [Shiny Apps IO](https://nampham91.shinyapps.io/wbdevelopment/ "View Nam Pham's Shiny App")
 
-## Main technique(s) used
+## Main technique(s) studied
 1. R shiny application
 2. Interactive graphs using `plotly` library
 3. R data manipulation techniques, using `dplyr` and `tidyr`
