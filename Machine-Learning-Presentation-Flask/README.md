@@ -50,7 +50,10 @@ Since the goal of the application is to educate non-technical users about machin
 
 ### Web layout
 My webpage consists of a very simple template with one sidebar to interact with users, and a large space to display four graphs above.
-![blank_view](/blank_view.png)
+![blank_view](https://github.com/nammphamm/Data-Science/tree/master/Machine-Learning-Presentation-Flask/screenshots/blank_view.png)
+
+After users validate some transactions, the model will be run and output the graphs as follow
+![full_view](https://github.com/nammphamm/Data-Science/tree/master/Machine-Learning-Presentation-Flask/screenshots/full_view.png)
 
 
 ### Deployment
