@@ -1,5 +1,7 @@
 # Building a simple web application using Flask
 
+<a href="https://imgflip.com/gif/2iupq6"><img src="https://i.imgflip.com/2iupq6.gif" title="made at imgflip.com"/></a>
+
 This application intends to build a simple logistic regression to educate non-technical users about machine learning. The idea is to design a simple interface so users can input training data and see that the model can "learn" and output its classification.
 
 ## Getting Started
@@ -50,17 +52,13 @@ Since the goal of the application is to educate non-technical users about machin
 
 ### Web layout
 My webpage consists of a very simple template with one sidebar to interact with users, and a large space to display four graphs above.
-![blank_view](Data-Science/Machine-Learning-Presentation-Flask/screenshots/blank_view.png)
-
-After users validate some transactions, the model will be run and output the graphs as follow
-![full_view](Data-Science/Machine-Learning-Presentation-Flask/screenshots/full_view.png)
+<b>
+Please view the templates folder for the Web HTML layout
 
 
 ### Deployment
 
-When the application is deployed, head over to `127.1.0.0/review/` to see the result
-
-## Sample Results
+When the application is deployed, head over to `127.1.0.0/review/` on your local machine to see the results
 
 ## Learning Outcomes
 
