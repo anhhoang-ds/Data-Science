@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Fraud Detection Demo</title>
+</head>
+
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+div {
+    height: 50%;
+    width: 50%;
+}
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+table#t01 {
+    width: 100%;
+    background-color: #f1f1c1;
+}
+nav {
+    float: left;
+    width: 250px;
+    padding: 20px;
+}
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+article {
+    float: left;
+    width: 70%;
+    /* only for demonstration, should be removed */
+}
+
+@media (max-width: 600px) {
+    nav, article {
+        width: 100%;
+        height: auto;
+    }
+}
+
+.divTable{
+	display: table;
+	width: 100%;
+}
+.divTableRow {
+	display: table-row;
+}
+.divTableHeading {
+	background-color: #EEE;
+	display: table-header-group;
+}
+.divTableCell, .divTableHead {
+	display: table-cell;
+	padding: 3px 10px;
+}
+.divTableHeading {
+	background-color: #EEE;
+	display: table-header-group;
+	font-weight: bold;
+}
+.divTableFoot {
+	background-color: #EEE;
+	display: table-footer-group;
+	font-weight: bold;
+}
+.divTableBody {
+	display: table-row-group;
+}
+</style>
+
+<section>
+<nav>
+<h2>Data</h2>
+    <table style="width:250px">
+    <tr>
+        <th style = "width:180px">Amount</th>
+        <td>{{amount}}</td>
+    </tr>
+    <tr>
+        <th style = "width:180px">Expense Type</th>
+        <td>{{type}}</td>
+    </tr>
+    <tr>
+        <th style = "width:180px">Estimated Risk</th>
+        <td bgcolor={{risk_color}}>{{risk}}</td>
+    </tr>
+    </table>
+
+    <form id='review' method='post' action='review' >
+    <p>
+        <input type='submit' name= 'User_Input' value='Fraud' />
+        <input type='submit' name= 'User_Input' value='Not Fraud' />
+    </p>
+    </form>
+
+</nav>
+
+<article>
+<div class="divTable">
+<div class="divTableBody">
+<div class="divTableRow">
+<div class="divTableCell">
+    <img src="data:image/png;base64,{{ roc_curve }}"\>
+
+
+</div>
+<div class="divTableCell">
+    <img src="data:image/png;base64,{{ auc_history }}"\>
+
+</div>
+</div>
+<div class="divTableRow">
+<div class="divTableCell">&nbsp
+    <img src="data:image/png;base64,{{ coef_fig }}"\>
+</div>
+<div class="divTableCell">&nbsp;
+<img src="data:image/png;base64,{{ decision_fig }}"\>
+</div>
+</div>
+</div>
+</div>
+</article>
+</section>
+
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Fraud Detection Demo</title>
+</head>
+
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+table#t01 {
+    width: 100%;
+    background-color: #f1f1c1;
+}
+</style>
+<body>
+
+<h2>Data</h2>
+
+<table style="width:5%">
+  <tr>
+    <th>Amount</th>
+    <th>Expense Type</th>
+    <th>Estimated Risk</th>
+  </tr>
+  <tr>
+    <td>{{amount}}</td>
+    <td>{{type}}</td>
+    <td bgcolor={{risk_color}}>{{risk}}</td>
+  </tr>
+
+</table>
+
+<form id='review' method='post' action='review' >
+    <p>
+        <input type='submit' name= 'User_Input' value='Fraud' />
+        <input type='submit' name= 'User_Input' value='Not Fraud' />
+    </p>
+</form>
+
+<p> AUC: {{auc}} </p>
+
+<img src="data:image/png;base64,{{ roc_curve }}"\>
+
+</html>
