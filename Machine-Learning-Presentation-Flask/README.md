@@ -52,8 +52,8 @@ Since the goal of the application is to educate non-technical users about machin
 
 ### Web layout
 My webpage consists of a very simple template with one sidebar to interact with users, and a large space to display four graphs above.
-<b>
-Please view the templates folder for the Web HTML layout
+
+Please view the `templates` folder for the Web HTML layout
 
 
 ### Deployment
