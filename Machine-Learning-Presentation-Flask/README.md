@@ -1,4 +1,4 @@
-# Building a simple web application using Flask
+# Building a simple Machine Learning application using Flask
 
 <a href="https://imgflip.com/gif/2iupq6"><img src="https://i.imgflip.com/2iupq6.gif" title="made at imgflip.com"/></a>
 
