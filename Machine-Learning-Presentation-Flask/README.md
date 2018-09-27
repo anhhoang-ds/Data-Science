@@ -52,6 +52,7 @@ Since the goal of the application is to educate non-technical users about machin
 
 ### Web layout
 My webpage consists of a very simple template with one sidebar to interact with users, and a large space to display four graphs above.
+![image](https://github.com/nammphamm/Data-Science/blob/master/Machine-Learning-Presentation-Flask/screenshots/full_view.png)
 
 Please view the `templates` folder for the Web HTML layout
 
