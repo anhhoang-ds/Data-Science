@@ -1,4 +1,4 @@
-# Nam Pham's data sciences and machine learning projects
+# Collection of personal data exploration/ML projects
 
 ## Introduction
 This repo contains my personal project related to data science, including visualization, predictive models, machine learning techniques. I started these projects back when I was styding my Master's and maintained as I started full time job. The main purpose of this Git is to refine my data sciences techniques. 
